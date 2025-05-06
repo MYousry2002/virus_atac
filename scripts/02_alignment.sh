@@ -5,7 +5,7 @@
 
 set -e
 
-# Inputs
+# ===== Inputs ========
 SAMPLE_ID="$1"
 VIRUS_NAME="$2"
 
@@ -31,7 +31,7 @@ UNMAPPED_R2="${SAMPLE_ID}_unmapped_R2.fastq"
 VIRAL_SAM="${SAMPLE_ID}_${VIRUS_NAME}.sam"
 VIRAL_BAM="${SAMPLE_ID}_${VIRUS_NAME}.bam"
 
-# Align to human genome
+# ==== Align to human genome =====
 bowtie2 \
   --no-unal \
   --local \
@@ -58,7 +58,7 @@ samtools sort -n "$UNMAPPED_BAM" -o "$UNMAPPED_SORTED"
 # Convert to FASTQ
 bedtools bamtofastq -i "$UNMAPPED_SORTED" -fq "$UNMAPPED_R1" -fq2 "$UNMAPPED_R2"
 
-# Align to viral genome
+# ==== Align to viral genome ====
 bowtie2 \
   --no-unal \
   --local \
