@@ -3,7 +3,7 @@
 #$ -cwd
 #$ -o ../logs/genome_bowtie2$TASK_ID.out
 #$ -e ../logs/genome_bowtie2$TASK_ID.err
-#$ -pe smp 4
+#$ -pe smp 8
 #$ -l h_vmem=64G
 #$ -l h_rt=2:00:00
 

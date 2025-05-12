@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# USAGE: ./align_virus_atac.sh sample_id virus_name
-# Example: ./align_virus_atac.sh SRR1234567 HSV1_KOS
+# USAGE: ./02_alignment.sh sample_id virus_name
+# Example: ./02_alignment.sh SRR1234567 HSV1_KOS
 
-set -e
+set -euo pipefail
 
 # ===== Inputs ========
 SAMPLE_ID="$1"
@@ -14,12 +14,19 @@ if [ -z "$SAMPLE_ID" ] || [ -z "$VIRUS_NAME" ]; then
   exit 1
 fi
 
-READ1="${SAMPLE_ID}_R1.fastq.gz"
-READ2="${SAMPLE_ID}_R2.fastq.gz"
+# Directories
+DATADIR="/projectnb/vtrs/myousry/virus_atac/data/"
+OUTDIR="/projectnb/vtrs/myousry/virus_atac/workdir/${SAMPLE_ID}"
+mkdir -p "$OUTDIR"
+cd "$OUTDIR"
+
+# FASTQ files
+READ1="${DATADIR}/${SAMPLE_ID}_1.fastq.gz"
+READ2="${DATADIR}/${SAMPLE_ID}_2.fastq.gz"
 
 # Genome indices
-HG38_INDEX="../../genomes/human/bowtie2_index/hg38"
-VIRAL_INDEX="../../genomes/herpesvirus/bowtie2_index/${VIRUS_NAME}/${VIRUS_NAME}"
+HG38_INDEX="/projectnb/vtrs/myousry/genomes/human/bowtie2_index/hg38"
+VIRAL_INDEX="/projectnb/vtrs/myousry/genomes/herpesviruses/bowtie2_index/${VIRUS_NAME}/${VIRUS_NAME}"
 
 # Output names
 HUMAN_SAM="${SAMPLE_ID}_human.sam"
@@ -33,10 +40,9 @@ VIRAL_BAM="${SAMPLE_ID}_${VIRUS_NAME}.bam"
 
 # ==== Align to human genome =====
 bowtie2 \
-  --no-unal \
   --local \
   --very-sensitive-local \
-  --nodiscordant \
+  --no-discordant \
   --no-mixed \
   --contain \
   --overlap \
@@ -60,10 +66,9 @@ bedtools bamtofastq -i "$UNMAPPED_SORTED" -fq "$UNMAPPED_R1" -fq2 "$UNMAPPED_R2"
 
 # ==== Align to viral genome ====
 bowtie2 \
-  --no-unal \
   --local \
   --very-sensitive-local \
-  --nodiscordant \
+  --no-discordant \
   --no-mixed \
   --contain \
   --overlap \
