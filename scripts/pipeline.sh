@@ -14,10 +14,10 @@ conda activate virus_atac
 set -euo pipefail
 
 # === Input variables ===
-SAMPLES_FILE="../data/samples_list.txt"
-VIRUS_NAME="HSV1_KOS"
+SAMPLES_FILE="/projectnb/vtrs/myousry/virus_atac/data/HCMV/samples_list.txt"
+VIRUS_NAME="HCMV"
 VIRAL_GENOME_SIZE=152000
-OUTDIR="../workdir"
+OUTDIR="/projectnb/vtrs/myousry/virus_atac/workdir/HCMV"
 
 if [ ! -f "$SAMPLES_FILE" ]; then
   echo "Sample list not found: $SAMPLES_FILE"
@@ -31,10 +31,10 @@ while read -r SAMPLE_ID; do
   # echo "==== Processing $SAMPLE_ID ===="
 
   # Alignment
-  # bash ../scripts/02_alignment.sh "$SAMPLE_ID" "$VIRUS_NAME"
+  bash /projectnb/vtrs/myousry/virus_atac/scripts/02_alignment.sh "$SAMPLE_ID" "$VIRUS_NAME" SE
 
   # Generate bigWig
-  bash ../scripts/03_generate_bigwig.sh "$SAMPLE_ID" "$VIRUS_NAME" "$VIRAL_GENOME_SIZE"
+  bash /projectnb/vtrs/myousry/virus_atac/scripts/03_generate_bigwig.sh "$SAMPLE_ID" "$VIRUS_NAME" "$VIRAL_GENOME_SIZE"
 
   echo "==== Completed $SAMPLE_ID ===="
   echo

@@ -13,15 +13,16 @@ conda activate virus_atac
 
 set -euo pipefail
 
-SAMPLES_FILE="../data/samples_list.txt"
-OUTDIR="../data"
+SAMPLES_FILE="../data/HSV1_17/samples_list.txt"
+VIRUS_NAME="HSV1_17"
+OUTDIR="../data/${VIRUS_NAME}"
 
 if [ ! -f "$SAMPLES_FILE" ]; then
   echo "Sample list not found: $SAMPLES_FILE"
   exit 1
 fi
 
-echo "Starting download and FASTQ conversion for samples listed in $SAMPLES_FILE."
+echo "Starting download and FASTQ conversion for samples in $SAMPLES_FILE (virus: $VIRUS_NAME)."
 
 while read -r SRR_ID; do
   [ -z "$SRR_ID" ] && continue
@@ -32,12 +33,8 @@ while read -r SRR_ID; do
   echo "[$SRR_ID] Downloading and converting to FASTQ..."
   fasterq-dump "$SRR_ID" -O "$SAMPLE_DIR" --split-files -e 4
 
-  echo "[$SRR_ID] Compressing FASTQ files..."
-  pigz "$SAMPLE_DIR/${SRR_ID}_1.fastq"
-  pigz "$SAMPLE_DIR/${SRR_ID}_2.fastq"
-
   echo "[$SRR_ID] Completed. Files stored in $SAMPLE_DIR"
   echo
 done < "$SAMPLES_FILE"
 
-echo "All downloads and conversions completed."
+echo "All downloads and conversions for $VIRUS_NAME completed."

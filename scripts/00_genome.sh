@@ -12,11 +12,11 @@ source /projectnb/bioinfor/myousry/miniconda3/etc/profile.d/conda.sh
 conda activate virus_atac
 
 # Human genome
-cd ../../genomes/human/
-mkdir -p bowtie2_index
-bowtie2-build Homo_sapiens.GRCh38.dna.primary_assembly.fa bowtie2_index/hg38
+# cd /projectnb/vtrs/myousry/genomes/human/
+# mkdir -p bowtie2_index
+# bowtie2-build Homo_sapiens.GRCh38.dna.primary_assembly.fa bowtie2_index/hg38
 
 # Herpesvirus genome (e.g., HSV1_KOS)
-cd ../herpesviruses/
-mkdir -p bowtie2_index/HSV1_KOS
-bowtie2-build HSV1_KOS.fasta bowtie2_index/HSV1_KOS
+cd /projectnb/vtrs/myousry/genomes/herpesviruses/
+mkdir -p bowtie2_index/HCMV
+bowtie2-build HCMV.fasta bowtie2_index/HCMV
