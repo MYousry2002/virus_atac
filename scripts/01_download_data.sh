@@ -5,7 +5,7 @@
 #$ -e ../logs/download_data_$TASK_ID.err
 #$ -pe smp 4
 #$ -l h_vmem=32G
-#$ -l h_rt=2:00:00
+#$ -l h_rt=4:00:00
 
 # Load conda environment
 source /projectnb/bioinfor/myousry/miniconda3/etc/profile.d/conda.sh

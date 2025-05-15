@@ -22,8 +22,8 @@ mkdir -p "$OUTDIR"
 cd "$OUTDIR"
 
 # FASTQ files
-READ1="${DATADIR}/${SAMPLE_ID}_1.fastq.gz"
-READ2="${DATADIR}/${SAMPLE_ID}_2.fastq.gz"
+READ1="${DATADIR}/${SAMPLE_ID}_R1.fastq"
+READ2="${DATADIR}/${SAMPLE_ID}_R2.fastq"
 READ_SE="${DATADIR}/${SAMPLE_ID}.fastq"  # Expected for SE
 
 # Genome indices
@@ -56,7 +56,7 @@ if [ "$MODE" == "PE" ]; then
     -x "$VIRAL_INDEX" -1 "$UNMAPPED_R1" -2 "$UNMAPPED_R2" -S "$VIRAL_SAM"
 
 else
-  """
+  
   UNMAPPED_SE="${SAMPLE_ID}_unmapped_SE.fastq"
 
   # Align to human genome (SE)
@@ -67,7 +67,7 @@ else
   samtools view -b -f 4 "$HUMAN_BAM" > "$UNMAPPED_BAM"
   samtools sort -n "$UNMAPPED_BAM" -o "$UNMAPPED_SORTED"
   bedtools bamtofastq -i "$UNMAPPED_SORTED" -fq "$UNMAPPED_SE"
-  """
+  
   
   # Align to viral genome (SE)
   bowtie2 --local --very-sensitive-local --phred33 \
